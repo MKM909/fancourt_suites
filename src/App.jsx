@@ -1320,7 +1320,7 @@ function App() {
 
       <section className="bg-[#e7dfcf] px-5 pb-10 pt-9 sm:px-8 sm:pt-[4.8rem] lg:px-12 lg:pt-[5.35rem]" id="rooms">
         <SectionHeading title="Available Rooms & Suites" compact showMark={false} />
-        <div className="mx-auto mt-8 max-w-[1010px]">
+        <div className="mx-auto mt-8 max-w-[1010px]" data-scroll-row>
           <div className="relative">
             <span
               aria-hidden="true"
@@ -1338,7 +1338,6 @@ function App() {
             {rooms.map((room) => (
               <article
                 className="group min-w-[260px] rounded-[14px] bg-white p-2.5 text-left shadow-[0_14px_30px_rgba(44,38,23,.09)] ring-1 ring-[#2c2617]/7 transition duration-300 hover:-translate-y-1 hover:shadow-[0_20px_44px_rgba(44,38,23,.15)] sm:min-w-[292px] lg:min-w-[318px]"
-                data-scroll-card
                 data-tilt-card
                 key={room.name}
                 onClick={() => handleRoomCardClick(room.name)}
