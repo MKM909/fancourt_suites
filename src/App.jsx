@@ -60,42 +60,50 @@ const stats = [
     number: '5,850+',
     label: 'Guests Hosted',
     text: 'First-class hospitality for guests who care about privacy, steady power, security, and prompt service.',
-    image: 'https://fancourtsuites.com/images/portfolio/10.jpg',
+    image: '/images/portfolio/reception-1000.webp',
+    imageSrcSet: '/images/portfolio/reception-640.webp 640w, /images/portfolio/reception-1000.webp 1000w',
   },
   {
     number: '24hr',
     label: 'Power, Food & Bar',
     text: 'A visible promise for business travellers who need work-ready comfort in Ilorin.',
-    image: 'https://fancourtsuites.com/images/portfolio/07.jpg',
+    image: '/images/portfolio/bathroom-860.webp',
+    imageSrcSet: '/images/portfolio/bathroom-480.webp 480w, /images/portfolio/bathroom-860.webp 860w',
   },
   {
     number: '40',
     label: 'Car Park Spaces',
     text: 'A secure Flower Garden GRA address with easy access to Ilorin Golf Course and Shoprite.',
-    image: 'https://fancourtsuites.com/images/about.jpg',
+    image: '/images/portfolio/location-800.webp',
+    imageSrcSet: '/images/portfolio/location-640.webp 640w, /images/portfolio/location-800.webp 800w',
   },
 ]
 
 const storyImages = [
   {
     alt: 'Fancourt suite lounge',
-    src: 'https://fancourtsuites.com/images/portfolio/02.jpg',
+    src: '/images/portfolio/lounge-760.webp',
+    srcSet: '/images/portfolio/lounge-480.webp 480w, /images/portfolio/lounge-760.webp 760w',
   },
   {
     alt: 'Fancourt restaurant dining',
-    src: 'https://fancourtsuites.com/images/portfolio/11.jpg',
+    src: '/images/portfolio/dining-760.webp',
+    srcSet: '/images/portfolio/dining-480.webp 480w, /images/portfolio/dining-760.webp 760w',
   },
   {
     alt: 'Fancourt bedroom suite',
-    src: 'https://fancourtsuites.com/images/portfolio/06.jpg',
+    src: '/images/portfolio/bedroom-760.webp',
+    srcSet: '/images/portfolio/bedroom-480.webp 480w, /images/portfolio/bedroom-760.webp 760w',
   },
   {
     alt: 'Fancourt suite sitting area',
-    src: 'https://fancourtsuites.com/images/portfolio/05.jpg',
+    src: '/images/portfolio/sitting-area-760.webp',
+    srcSet: '/images/portfolio/sitting-area-480.webp 480w, /images/portfolio/sitting-area-760.webp 760w',
   },
   {
     alt: 'Fancourt room detail',
-    src: 'https://fancourtsuites.com/images/portfolio/04.jpg',
+    src: '/images/portfolio/room-detail-760.webp',
+    srcSet: '/images/portfolio/room-detail-480.webp 480w, /images/portfolio/room-detail-760.webp 760w',
   },
 ]
 
@@ -461,12 +469,18 @@ function App() {
       return undefined
     }
 
-    const context = gsap.context(() => {
+    let context
+
+    const setupScrollAnimations = () => {
+      if (context) {
+        return
+      }
+
+      context = gsap.context(() => {
       const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
       const scrollWords = gsap.utils.toArray('[data-scroll-float-word]', page)
       const cards = gsap.utils.toArray('[data-scroll-card]', page)
       const rows = gsap.utils.toArray('[data-scroll-row]', page)
-      const parallaxImages = gsap.utils.toArray('[data-scroll-parallax]', page)
       const statCounters = gsap.utils.toArray('[data-stat-counter]', page)
       const tiltCards = gsap.utils.toArray('[data-tilt-card]', page)
       const microTargets = gsap.utils.toArray('button, a[href]', page)
@@ -475,7 +489,7 @@ function App() {
         statCounters.forEach((counter) => {
           counter.textContent = counter.dataset.statCounterFinal || counter.textContent
         })
-        gsap.set([...scrollWords, ...cards, ...rows, ...parallaxImages], { clearProps: 'all' })
+        gsap.set([...scrollWords, ...cards, ...rows], { clearProps: 'all' })
         return
       }
 
@@ -555,24 +569,32 @@ function App() {
 
       gsap.utils.toArray('[data-scroll-float]', page).forEach((heading) => {
         const words = gsap.utils.toArray('[data-scroll-float-word]', heading)
+        const playHeading = () => {
+          if (heading.dataset.scrollFloatPlayed === 'true') {
+            return
+          }
 
-        gsap.timeline({
-          scrollTrigger: {
-            trigger: heading,
-            start: 'top 84%',
-            once: true,
-          },
-        }).to(words, {
-          autoAlpha: 1,
-          clearProps: 'transform,opacity,visibility,willChange',
-          duration: 0.74,
-          ease: 'power4.out',
-          rotationX: 0,
-          stagger: {
-            amount: Math.min(0.42, words.length * 0.055),
-            from: 'start',
-          },
-          yPercent: 0,
+          heading.dataset.scrollFloatPlayed = 'true'
+          gsap.to(words, {
+            autoAlpha: 1,
+            clearProps: 'transform,opacity,visibility,willChange',
+            duration: 0.74,
+            ease: 'power4.out',
+            rotationX: 0,
+            stagger: {
+              amount: Math.min(0.42, words.length * 0.055),
+              from: 'start',
+            },
+            yPercent: 0,
+          })
+        }
+
+        ScrollTrigger.create({
+          end: 'bottom 12%',
+          onEnter: playHeading,
+          onEnterBack: playHeading,
+          start: 'top 84%',
+          trigger: heading,
         })
       })
 
@@ -642,24 +664,6 @@ function App() {
           })
         },
         start: 'top 86%',
-      })
-
-      parallaxImages.forEach((image) => {
-        gsap.fromTo(
-          image,
-          { scale: 1.035, y: -18 },
-          {
-            ease: 'none',
-            scale: 1.07,
-            scrollTrigger: {
-              end: 'bottom top',
-              scrub: 0.75,
-              start: 'top bottom',
-              trigger: image,
-            },
-            y: 18,
-          },
-        )
       })
 
       const canTilt = window.matchMedia('(hover: hover) and (pointer: fine)').matches
@@ -736,14 +740,24 @@ function App() {
         })
       })
 
-      window.setTimeout(() => ScrollTrigger.refresh(), 320)
+      window.requestAnimationFrame(() => ScrollTrigger.refresh())
 
       return () => {
         cleanupHandlers.forEach((cleanup) => cleanup())
       }
-    }, page)
+      }, page)
+    }
 
-    return () => context.revert()
+    if (document.documentElement.dataset.pageRevealed === 'true') {
+      setupScrollAnimations()
+    } else {
+      window.addEventListener('fancourt:reveal-complete', setupScrollAnimations, { once: true })
+    }
+
+    return () => {
+      window.removeEventListener('fancourt:reveal-complete', setupScrollAnimations)
+      context?.revert()
+    }
   }, [])
 
   useEffect(() => {
@@ -923,19 +937,13 @@ function App() {
     }
 
     const previousBodyOverflow = document.body.style.overflow
-    const previousBodyPaddingRight = document.body.style.paddingRight
     const previousBodyOverscroll = document.body.style.overscrollBehavior
-    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth
 
     document.body.style.overflow = 'hidden'
     document.body.style.overscrollBehavior = 'contain'
-    if (scrollbarWidth > 0) {
-      document.body.style.paddingRight = `${scrollbarWidth}px`
-    }
 
     return () => {
       document.body.style.overflow = previousBodyOverflow
-      document.body.style.paddingRight = previousBodyPaddingRight
       document.body.style.overscrollBehavior = previousBodyOverscroll
     }
   }, [activePanel])
@@ -1007,7 +1015,7 @@ function App() {
 
     setMissingSteps([])
     setActivePanel(null)
-    document.getElementById('rooms')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    document.getElementById('rooms')?.scrollIntoView({ behavior: 'auto', block: 'start' })
   }
 
   function handleRoomBooking(roomName) {
@@ -1129,7 +1137,9 @@ function App() {
             <img
               alt="Fancourt Suites"
               className="h-10 w-auto object-contain brightness-0 invert sm:h-12"
-              src="/fancourt-logo.png"
+              decoding="async"
+              fetchPriority="high"
+              src="/fancourt-logo.webp"
             />
           </a>
           <div className="relative hidden h-10 w-[min(52vw,500px)] grid-cols-6 items-center justify-self-center overflow-hidden rounded-full border border-white/35 bg-[#2c2617]/22 p-1 shadow-[inset_0_1px_0_rgba(255,255,255,.16)] md:grid">
@@ -1170,12 +1180,9 @@ function App() {
       <div className="bg-[#e9e0cf] p-1.5">
         <section
           ref={heroRef}
-          className="relative isolate grid h-[calc(100svh-12px)] min-h-[620px] grid-rows-[1fr] overflow-hidden rounded-b-[22px] rounded-t-none bg-cover bg-center px-4 py-4 text-white sm:min-h-[560px] sm:px-14 sm:py-5 lg:px-20"
+          className="hero-fixed-background relative isolate grid h-[calc(100svh-12px)] min-h-[620px] grid-rows-[1fr] overflow-hidden rounded-b-[22px] rounded-t-none bg-[#2c2617] px-4 py-4 text-white sm:min-h-[560px] sm:px-14 sm:py-5 lg:px-20"
           id="home"
           aria-label="Luxury hotel hero"
-          style={{
-            backgroundImage: 'url(https://fancourtsuites.com/data1/images/6.jpg)',
-          }}
         >
           <div className="absolute inset-0 -z-10 bg-[#2c2617]/80" />
           <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_48%_42%,rgba(255,255,255,.08),transparent_32%),linear-gradient(90deg,rgba(44,38,23,.18),transparent_28%,transparent_70%,rgba(44,38,23,.2))]" />
@@ -1324,13 +1331,13 @@ function App() {
               className={`pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-[#e7dfcf] to-transparent transition-opacity duration-300 ${roomsScrollEdges.right ? 'opacity-100' : 'opacity-0'}`}
             />
           <div
-            className="rooms-scroll flex snap-x gap-3.5 overflow-x-auto scroll-smooth pb-2 sm:gap-4"
+            className="rooms-scroll flex gap-3.5 overflow-x-auto pb-2 sm:gap-4"
             onScroll={updateRoomsScrollEdges}
             ref={roomsScrollerRef}
           >
             {rooms.map((room) => (
               <article
-                className="group min-w-[260px] snap-start rounded-[14px] bg-white p-2.5 text-left shadow-[0_14px_30px_rgba(44,38,23,.09)] ring-1 ring-[#2c2617]/7 transition duration-300 hover:-translate-y-1 hover:shadow-[0_20px_44px_rgba(44,38,23,.15)] sm:min-w-[292px] lg:min-w-[318px]"
+                className="group min-w-[260px] rounded-[14px] bg-white p-2.5 text-left shadow-[0_14px_30px_rgba(44,38,23,.09)] ring-1 ring-[#2c2617]/7 transition duration-300 hover:-translate-y-1 hover:shadow-[0_20px_44px_rgba(44,38,23,.15)] sm:min-w-[292px] lg:min-w-[318px]"
                 data-scroll-card
                 data-tilt-card
                 key={room.name}
@@ -1345,7 +1352,15 @@ function App() {
                 tabIndex={0}
               >
                 <div className="relative overflow-hidden rounded-[10px]">
-                  <img className="h-36 w-full object-cover transition duration-500 group-hover:scale-[1.035] sm:h-40" src={room.image} alt={`${room.name} bedroom`} />
+                  <img
+                    className="h-36 w-full object-cover transition duration-500 group-hover:scale-[1.035] sm:h-40"
+                    src={room.image}
+                    srcSet={room.imageSrcSet}
+                    sizes="(min-width: 1024px) 318px, (min-width: 640px) 292px, 260px"
+                    alt={`${room.name} bedroom`}
+                    loading="lazy"
+                    decoding="async"
+                  />
                   <span className="absolute right-2.5 top-2.5 rounded-full bg-white px-2.5 py-1 text-xs font-black text-[#2c2617] shadow-[0_10px_24px_rgba(0,0,0,.18)]">
                     {room.price}
                     <small className="ml-1 text-[9px] font-black text-[#7b6b4b]">/night</small>
@@ -1447,28 +1462,40 @@ function App() {
 
         <div
           aria-label="Fancourt suite gallery"
-          className="rooms-scroll mt-2 overflow-x-auto overflow-y-hidden overscroll-x-contain scroll-smooth px-4 py-8 sm:mt-1 sm:px-6 sm:py-9 lg:px-7"
+          className="rooms-scroll mt-2 overflow-x-auto overflow-y-hidden px-4 py-8 sm:mt-1 sm:px-6 sm:py-9 lg:px-7"
           ref={aboutImagesScrollerRef}
         >
           <div className="mx-auto flex w-max items-end gap-4 sm:gap-6 lg:gap-8">
             <img
               className="h-[250px] w-[176px] shrink-0 rounded-full object-cover shadow-[0_28px_70px_rgba(44,38,23,.18)] sm:h-[330px] sm:w-[218px]"
               src={storyImages[0].src}
+              srcSet={storyImages[0].srcSet}
+              sizes="218px"
               alt={storyImages[0].alt}
               data-scroll-card
+              loading="lazy"
+              decoding="async"
             />
             <img
               className="mb-5 h-[200px] w-[200px] shrink-0 rounded-full object-cover shadow-[0_28px_70px_rgba(44,38,23,.16)] sm:mb-8 sm:h-[238px] sm:w-[238px]"
               src={storyImages[1].src}
+              srcSet={storyImages[1].srcSet}
+              sizes="238px"
               alt={storyImages[1].alt}
               data-scroll-card
+              loading="lazy"
+              decoding="async"
             />
             <div className="relative shrink-0" data-gallery-center>
             <img
               className="h-[288px] w-[210px] rounded-full object-cover shadow-[0_28px_70px_rgba(44,38,23,.18)] sm:h-[362px] sm:w-[262px]"
               src={storyImages[2].src}
+              srcSet={storyImages[2].srcSet}
+              sizes="262px"
               alt={storyImages[2].alt}
               data-scroll-card
+              loading="lazy"
+              decoding="async"
             />
             <span className="absolute bottom-8 right-4 rotate-[58deg] text-[10px] font-black tracking-[.28em] text-white/80">
               secure GRA comfort
@@ -1477,14 +1504,22 @@ function App() {
             <img
               className="mb-6 h-[218px] w-[196px] shrink-0 rounded-full object-cover shadow-[0_28px_70px_rgba(44,38,23,.16)] sm:mb-10 sm:h-[276px] sm:w-[226px]"
               src={storyImages[3].src}
+              srcSet={storyImages[3].srcSet}
+              sizes="226px"
               alt={storyImages[3].alt}
               data-scroll-card
+              loading="lazy"
+              decoding="async"
             />
             <img
               className="mb-1 h-[240px] w-[172px] shrink-0 rounded-full object-cover shadow-[0_28px_70px_rgba(44,38,23,.16)] sm:h-[318px] sm:w-[212px]"
               src={storyImages[4].src}
+              srcSet={storyImages[4].srcSet}
+              sizes="212px"
               alt={storyImages[4].alt}
               data-scroll-card
+              loading="lazy"
+              decoding="async"
             />
           </div>
         </div>
@@ -1539,7 +1574,7 @@ function App() {
 
           <div
             aria-label="Guest testimonial carousel"
-            className="rooms-scroll relative z-10 mt-6 flex snap-x snap-mandatory gap-5 overflow-x-auto overflow-y-hidden overscroll-x-contain px-[max(1.5rem,calc((100vw-500px)/2))] py-3"
+            className="rooms-scroll relative z-10 mt-6 flex gap-5 overflow-x-auto overflow-y-hidden px-[max(1.5rem,calc((100vw-500px)/2))] py-3"
             onBlur={resumeTestimonialAutoplay}
             onFocus={holdTestimonialAutoplay}
             onMouseEnter={holdTestimonialAutoplay}
@@ -1601,8 +1636,9 @@ function App() {
             <img
               alt="Fancourt Suites receptionist waving"
               className="absolute bottom-0 left-0 z-[1] h-[285px] max-w-none object-contain sm:left-2 sm:h-[335px] lg:left-0 lg:h-[405px]"
-              src="/contact-host.png"
-              data-scroll-parallax
+              decoding="async"
+              loading="lazy"
+              src="/contact-host.webp"
             />
             <span
               aria-hidden="true"
@@ -1693,7 +1729,7 @@ function App() {
             data-scroll-card
             style={{
               backgroundImage:
-                'linear-gradient(180deg, rgba(44, 38, 23, .82), rgba(44, 38, 23, .96)), url(https://fancourtsuites.com/images/portfolio/10.jpg)',
+                'linear-gradient(180deg, rgba(44, 38, 23, .82), rgba(44, 38, 23, .96)), url(/images/portfolio/reception-1000.webp)',
               backgroundPosition: 'center',
               backgroundSize: 'cover',
               borderRadius: 0,
@@ -1807,11 +1843,8 @@ function PageRevealOverlay() {
       gsap.set(columns, { willChange: 'transform', yPercent: 0 })
       gsap.set(logo, { autoAlpha: 0, scale: 0.82, willChange: 'transform, opacity', y: 18 })
       gsap.set(pageContent, {
-        autoAlpha: 0.82,
-        scale: 0.945,
-        transformOrigin: 'left top',
-        willChange: 'transform, opacity',
-        y: 0,
+        autoAlpha: 0.92,
+        willChange: 'opacity',
       })
 
       timeline = gsap.timeline({
@@ -1846,11 +1879,10 @@ function PageRevealOverlay() {
         }, [], 'siteReveal+=0.34')
         .to(pageContent, {
           autoAlpha: 1,
-          clearProps: 'transform,opacity,visibility,willChange',
-          duration: 0.88,
-          ease: 'power4.out',
-          scale: 1,
-        }, 'siteReveal+=0.36')
+          clearProps: 'opacity,visibility,willChange',
+          duration: 0.38,
+          ease: 'power2.out',
+        }, 'siteReveal+=0.22')
         .to(overlay, {
           autoAlpha: 0,
           duration: 0.14,
@@ -2520,7 +2552,15 @@ function BookingSummaryContent({
 function DrawerImageHeader({ children, imageClassName, room, showGradient = true }) {
   return (
     <div className="relative lg:h-full lg:min-h-0">
-      <img className={`${imageClassName} w-full rounded-b-[34px] object-cover lg:rounded-[28px]`} src={room.image} alt={`${room.name} bedroom`} />
+      <img
+        className={`${imageClassName} w-full rounded-b-[34px] object-cover lg:rounded-[28px]`}
+        src={room.image}
+        srcSet={room.imageSrcSet}
+        sizes="(min-width: 1024px) 48vw, 100vw"
+        alt={`${room.name} bedroom`}
+        loading="eager"
+        decoding="async"
+      />
       {showGradient && (
         <div className="pointer-events-none absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-[#2c2617]/45 via-[#2c2617]/16 to-transparent lg:hidden" aria-hidden="true" />
       )}
@@ -2808,7 +2848,15 @@ function TrustStatRow({ stat, variant }) {
   )
   const imageBlock = (
     <div className="h-44 w-full overflow-hidden rounded-[10px] sm:h-56 md:w-[430px] md:min-w-[430px] md:max-w-[430px]">
-      <img className="h-44 w-full object-cover opacity-90 sm:h-56" src={stat.image} alt="" data-scroll-parallax />
+      <img
+        className="h-44 w-full object-cover opacity-90 sm:h-56"
+        src={stat.image}
+        srcSet={stat.imageSrcSet}
+        sizes="(min-width: 768px) 430px, calc(100vw - 3rem)"
+        alt=""
+        loading="lazy"
+        decoding="async"
+      />
     </div>
   )
   const rowGridClass = variant === 'stat-image-copy'
@@ -2844,7 +2892,7 @@ function TrustStatRow({ stat, variant }) {
 function TestimonialCard({ active, testimonial }) {
   return (
       <article
-        className={`relative h-[360px] w-[min(80vw,500px)] shrink-0 snap-center overflow-hidden rounded-[10px] border border-white/8 bg-[#24221c] px-6 py-6 transition duration-300 sm:h-[320px] ${
+        className={`relative h-[360px] w-[min(80vw,500px)] shrink-0 overflow-hidden rounded-[10px] border border-white/8 bg-[#24221c] px-6 py-6 transition duration-300 sm:h-[320px] ${
           active
             ? 'scale-x-100 scale-y-100 opacity-100 blur-0 shadow-[0_34px_95px_rgba(0,0,0,.36)]'
             : 'scale-x-[.88] scale-y-100 opacity-[.42] blur-[.2px] shadow-[0_18px_52px_rgba(0,0,0,.18)]'
@@ -2860,6 +2908,8 @@ function TestimonialCard({ active, testimonial }) {
             className={`${active ? 'size-[72px]' : 'size-14'} mx-auto rounded-full border border-[#d2b85d]/35 object-cover shadow-[0_14px_34px_rgba(0,0,0,.28)] transition-all duration-300`}
           src={testimonial.avatar}
           alt={`${testimonial.name} portrait`}
+          loading="lazy"
+          decoding="async"
         />
         <h3 className={`${active ? 'mt-5 text-xl' : 'mt-4 text-lg'} font-black tracking-[0] text-white transition-all duration-300`}>
           {testimonial.name}

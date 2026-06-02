@@ -6,7 +6,8 @@ export const roomCatalog = [
   {
     name: 'Superior Standard',
     price: 'N40,000',
-    image: 'https://fancourtsuites.com/images/rooms/1.jpg',
+    image: '/images/rooms/superior-standard-960.webp',
+    imageSrcSet: '/images/rooms/superior-standard-480.webp 480w, /images/rooms/superior-standard-960.webp 960w',
     fit: 'Best for solo work trips',
     meta: ['AC room', 'Double bed', 'LCD TV'],
     perks: ['Complimentary breakfast', '24-hour power', 'Water heater'],
@@ -14,7 +15,8 @@ export const roomCatalog = [
   {
     name: 'Luxury Executive',
     price: 'N45,000',
-    image: 'https://fancourtsuites.com/images/rooms/2.jpg',
+    image: '/images/rooms/luxury-executive-960.webp',
+    imageSrcSet: '/images/rooms/luxury-executive-480.webp 480w, /images/rooms/luxury-executive-960.webp 960w',
     fit: 'Extra comfort at a modest upgrade',
     meta: ['AC room', 'Fridge', 'Electric kettle'],
     perks: ['Breakfast included', 'Quiet GRA stay', 'Restaurant access'],
@@ -22,7 +24,8 @@ export const roomCatalog = [
   {
     name: 'Single Room Suite',
     price: 'N50,000',
-    image: 'https://fancourtsuites.com/images/rooms/3.jpg',
+    image: '/images/rooms/single-room-suite-960.webp',
+    imageSrcSet: '/images/rooms/single-room-suite-480.webp 480w, /images/rooms/single-room-suite-960.webp 960w',
     fit: 'Privacy-focused suite choice',
     meta: ['Private suite', 'LCD TV', 'Hot water'],
     perks: ['Secure parking', '24-hour power', 'Concierge support'],
@@ -30,7 +33,8 @@ export const roomCatalog = [
   {
     name: 'Double Room Suite',
     price: 'N80,000',
-    image: 'https://fancourtsuites.com/images/rooms/4.jpg',
+    image: '/images/rooms/double-room-suite-960.webp',
+    imageSrcSet: '/images/rooms/double-room-suite-480.webp 480w, /images/rooms/double-room-suite-960.webp 960w',
     fit: 'Two-room ensuite with sitting area',
     meta: ['Separate sitting room', 'Double bed', 'Fridge'],
     perks: ['VIP privacy', 'Breakfast included', 'Taxi support'],
@@ -38,7 +42,8 @@ export const roomCatalog = [
   {
     name: 'Executive Suite',
     price: 'N86,000',
-    image: 'https://fancourtsuites.com/images/rooms/5.jpg',
+    image: '/images/rooms/executive-suite-960.webp',
+    imageSrcSet: '/images/rooms/executive-suite-480.webp 480w, /images/rooms/executive-suite-960.webp 960w',
     fit: 'Most polished executive stay',
     meta: ['King-size bed', 'Lounge space', 'AC room'],
     perks: ['Prompt reception', '24-hour food & bar', 'Secure GRA location'],

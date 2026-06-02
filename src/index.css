@@ -2,7 +2,9 @@
 @import "tailwindcss";
 
 html {
-  scroll-behavior: smooth;
+  overflow-x: hidden;
+  scroll-behavior: auto;
+  scrollbar-gutter: auto;
   scrollbar-width: none;
 }
 
@@ -19,23 +21,38 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
+  scrollbar-gutter: auto;
+  scrollbar-width: none;
   -ms-overflow-style: none;
 }
 
+* {
+  scrollbar-width: none;
+}
+
+*::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  background: transparent !important;
+}
+
 html::-webkit-scrollbar,
-body::-webkit-scrollbar {
+body::-webkit-scrollbar,
+#root::-webkit-scrollbar {
   display: none;
-  width: 0;
-  height: 0;
+  width: 0 !important;
+  height: 0 !important;
+  background: transparent;
 }
 
 .custom-page-scrollbar {
   position: fixed;
   top: max(0.7rem, env(safe-area-inset-top));
-  right: max(0.25rem, env(safe-area-inset-right));
+  right: max(0.15rem, env(safe-area-inset-right));
   bottom: max(0.7rem, env(safe-area-inset-bottom));
   z-index: 980;
-  width: 18px;
+  width: 13px;
   opacity: 0;
   pointer-events: none;
   transition: opacity 220ms ease;
@@ -44,9 +61,9 @@ body::-webkit-scrollbar {
 .custom-page-scrollbar-track {
   position: absolute;
   top: 0;
-  right: 4px;
+  right: 0;
   bottom: 0;
-  width: 10px;
+  width: 13px;
   border-radius: 999px;
   background: transparent;
   cursor: grab;
@@ -55,15 +72,14 @@ body::-webkit-scrollbar {
 .custom-page-scrollbar-thumb {
   position: absolute;
   top: 0;
-  left: 50%;
-  width: 7px;
+  right: 3px;
+  width: 5px;
   min-height: 46px;
-  margin-left: -3.5px;
   border-radius: 999px;
-  background: rgba(44, 38, 23, 0.54);
+  background: rgba(44, 38, 23, 0.58);
   box-shadow:
     0 0 0 1px rgba(255, 255, 255, 0.24),
-    0 10px 26px rgba(44, 38, 23, 0.24);
+    0 10px 24px rgba(44, 38, 23, 0.22);
   transform: translate3d(0, 0, 0);
   will-change: transform, height;
 }
@@ -74,8 +90,8 @@ html.scrollbar-visible .custom-page-scrollbar {
 }
 
 html.scrollbar-visible .custom-page-scrollbar-track {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.22), rgba(44, 38, 23, 0.1));
-  box-shadow: inset 0 0 0 1px rgba(44, 38, 23, 0.08);
+  background: transparent;
+  box-shadow: none;
 }
 
 html.custom-scrollbar-dragging,
@@ -154,8 +170,40 @@ html.custom-scrollbar-disabled .custom-page-scrollbar {
   background: #2c2617;
   transform: translate3d(0, 0, 0);
   will-change: transform, opacity;
-  -webkit-mask: url("/fancourt-logo.png") center / contain no-repeat;
-  mask: url("/fancourt-logo.png") center / contain no-repeat;
+  -webkit-mask: url("/fancourt-logo.webp") center / contain no-repeat;
+  mask: url("/fancourt-logo.webp") center / contain no-repeat;
+}
+
+.hero-fixed-background {
+  clip-path: inset(0 0 0 0 round 0 0 22px 22px);
+}
+
+.hero-fixed-background::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -20;
+  pointer-events: none;
+  background-image: url("/images/hero/fancourt-hero-1080.webp");
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+@supports (background-image: image-set(url("/images/hero/fancourt-hero-960.webp") 1x)) {
+  .hero-fixed-background::before {
+    background-image: image-set(
+      url("/images/hero/fancourt-hero-960.webp") 1x,
+      url("/images/hero/fancourt-hero-1080.webp") 2x
+    );
+  }
+}
+
+@media (hover: none), (pointer: coarse) {
+  .hero-fixed-background::before {
+    position: absolute;
+    inset: 0;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
