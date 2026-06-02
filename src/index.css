@@ -1,0 +1,529 @@
+@import url("https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700;800;900&display=swap");
+@import "tailwindcss";
+
+html {
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  background: #e9e0cf;
+  color: #2c2617;
+  font-family: "Raleway", sans-serif;
+  font-weight: 500;
+  letter-spacing: 0;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  -ms-overflow-style: none;
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+.custom-page-scrollbar {
+  position: fixed;
+  top: max(0.7rem, env(safe-area-inset-top));
+  right: max(0.25rem, env(safe-area-inset-right));
+  bottom: max(0.7rem, env(safe-area-inset-bottom));
+  z-index: 980;
+  width: 18px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 220ms ease;
+}
+
+.custom-page-scrollbar-track {
+  position: absolute;
+  top: 0;
+  right: 4px;
+  bottom: 0;
+  width: 10px;
+  border-radius: 999px;
+  background: transparent;
+  cursor: grab;
+}
+
+.custom-page-scrollbar-thumb {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 7px;
+  min-height: 46px;
+  margin-left: -3.5px;
+  border-radius: 999px;
+  background: rgba(44, 38, 23, 0.54);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.24),
+    0 10px 26px rgba(44, 38, 23, 0.24);
+  transform: translate3d(0, 0, 0);
+  will-change: transform, height;
+}
+
+html.scrollbar-visible .custom-page-scrollbar {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+html.scrollbar-visible .custom-page-scrollbar-track {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.22), rgba(44, 38, 23, 0.1));
+  box-shadow: inset 0 0 0 1px rgba(44, 38, 23, 0.08);
+}
+
+html.custom-scrollbar-dragging,
+html.custom-scrollbar-dragging body {
+  cursor: grabbing;
+  user-select: none;
+}
+
+html.custom-scrollbar-dragging .custom-page-scrollbar {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+html.custom-scrollbar-dragging .custom-page-scrollbar-track {
+  cursor: grabbing;
+}
+
+html.custom-scrollbar-dragging .custom-page-scrollbar-thumb {
+  background: rgba(44, 38, 23, 0.72);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.3),
+    0 14px 34px rgba(44, 38, 23, 0.3);
+}
+
+html.custom-scrollbar-disabled .custom-page-scrollbar {
+  display: none;
+}
+
+.scroll-float-word {
+  display: inline-block;
+  transform-style: preserve-3d;
+  will-change: transform, opacity;
+}
+
+[data-scroll-float] {
+  perspective: 720px;
+}
+
+@media (pointer: coarse) {
+  .custom-page-scrollbar {
+    display: none;
+  }
+}
+
+.page-reveal {
+  pointer-events: none;
+}
+
+.page-reveal-columns {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+}
+
+.page-reveal-column {
+  min-width: 0;
+  background: #e9e0cf;
+  box-shadow: 1px 0 0 #e9e0cf;
+  transform: translate3d(0, 0, 0);
+  will-change: transform;
+}
+
+.page-reveal-logo-wrap {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+}
+
+.page-reveal-logo {
+  width: clamp(9.5rem, 18vw, 15.5rem);
+  height: clamp(3.8rem, 7vw, 6.2rem);
+  background: #2c2617;
+  transform: translate3d(0, 0, 0);
+  will-change: transform, opacity;
+  -webkit-mask: url("/fancourt-logo.png") center / contain no-repeat;
+  mask: url("/fancourt-logo.png") center / contain no-repeat;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-reveal {
+    display: none;
+  }
+}
+
+section#home:has(.booking-shell:hover) .booking-focus-layer,
+section#home:has(.booking-shell[data-active="true"]) .booking-focus-layer {
+  opacity: 1;
+}
+
+section#home:has(.booking-shell:hover) .booking-shell,
+section#home:has(.booking-shell[data-active="true"]) .booking-shell {
+  z-index: 920;
+}
+
+.booking-panel {
+  max-width: min(calc(100vw - 1.5rem), calc(100% + 4rem));
+  pointer-events: none;
+  z-index: 940;
+}
+
+.booking-panel-active {
+  opacity: 1;
+  pointer-events: auto;
+  z-index: 960;
+}
+
+.booking-panel-arrival {
+  left: 0;
+  transform: translateY(12px) scale(0.98);
+  transform-origin: bottom left;
+}
+
+.booking-panel-departure {
+  left: min(10%, 4rem);
+  transform: translateY(12px) scale(0.98);
+  transform-origin: bottom left;
+}
+
+.booking-panel-guests {
+  left: 50%;
+  transform: translateX(-50%) translateY(12px) scale(0.98);
+  transform-origin: bottom center;
+}
+
+.booking-panel-suite {
+  right: min(10%, 4rem);
+  transform: translateY(12px) scale(0.98);
+  transform-origin: bottom right;
+}
+
+.booking-panel-confirm {
+  right: 0;
+  transform: translateY(12px) scale(0.98);
+  transform-origin: bottom right;
+}
+
+.booking-panel-rates {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  bottom: auto;
+  max-height: min(74vh, 620px);
+  overflow: hidden;
+  transform: translateX(-50%) translateY(calc(-50% + 12px)) scale(0.98);
+  transform-origin: center;
+}
+
+.summary-drawer-root {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  pointer-events: none;
+  visibility: hidden;
+  overscroll-behavior: contain;
+  transition: visibility 0s linear 340ms;
+}
+
+.summary-drawer-backdrop {
+  position: absolute;
+  inset: 0;
+  border: 0;
+  background: rgba(44, 38, 23, 0.5);
+  opacity: 0;
+  backdrop-filter: blur(2px);
+  transition: opacity 280ms ease;
+}
+
+.summary-drawer-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  width: min(94vw, 470px);
+  height: 100dvh;
+  max-height: 100dvh;
+  flex-direction: column;
+  background: #f6efe2;
+  color: #2c2617;
+  box-shadow: -28px 0 80px rgba(0, 0, 0, 0.28);
+  overflow: hidden;
+  overscroll-behavior: contain;
+  transform: translateX(calc(100% + 32px));
+  transition: transform 320ms cubic-bezier(.22, .9, .24, 1);
+  will-change: transform;
+}
+
+@media (min-width: 1024px) {
+  .summary-drawer-panel {
+    width: min(92vw, 940px);
+  }
+}
+
+.summary-drawer-open {
+  pointer-events: auto;
+  visibility: visible;
+  transition-delay: 0s;
+}
+
+.summary-drawer-open .summary-drawer-backdrop {
+  opacity: 1;
+}
+
+.summary-drawer-open .summary-drawer-panel {
+  transform: translateX(0);
+}
+
+.drawer-view {
+  animation: drawer-view-fade 220ms ease both;
+}
+
+.rooms-scroll {
+  scrollbar-width: none;
+}
+
+.rooms-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.departure-range-trail {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  left: 0;
+  z-index: 0;
+  height: 2rem;
+  transform: translateY(-50%);
+  background: rgba(215, 194, 132, 0.26);
+  box-shadow: inset 0 0 0 1px rgba(44, 38, 23, 0.035);
+}
+
+.departure-range-trail-start {
+  left: 50%;
+  border-top-left-radius: 999px;
+  border-bottom-left-radius: 999px;
+}
+
+.departure-range-trail-end {
+  right: 50%;
+  border-top-right-radius: 999px;
+  border-bottom-right-radius: 999px;
+}
+
+.departure-range-trail-start.departure-range-trail-end {
+  right: 0.25rem;
+  left: 0.25rem;
+}
+
+@keyframes drawer-view-fade {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.booking-panel::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: -18px;
+  left: 0;
+  height: 22px;
+}
+
+@media (max-width: 767px) {
+  section#home:has(.booking-shell[data-active="true"]) .booking-focus-layer {
+    opacity: 0.78;
+    backdrop-filter: blur(2px);
+  }
+
+  section#home {
+    border-bottom-right-radius: 30px;
+    border-bottom-left-radius: 30px;
+  }
+
+  .mobile-hero-booking-shell {
+    right: auto;
+    left: calc(50% - 50vw + 1.125rem);
+    width: calc(100vw - 2.25rem);
+  }
+
+  .mobile-booking-card {
+    border-radius: 18px;
+    overflow: hidden;
+  }
+
+  .mobile-booking-card [data-booking-panel] {
+    border-radius: 0;
+  }
+
+  .mobile-booking-card [data-booking-panel="arrival"] {
+    border-top-left-radius: 18px;
+  }
+
+  .mobile-booking-card [data-booking-panel="departure"] {
+    border-top-right-radius: 18px;
+  }
+
+  .mobile-booking-card [data-booking-panel="guests"] {
+    border-bottom-left-radius: 18px;
+  }
+
+  .mobile-booking-cta {
+    border-radius: 12px;
+  }
+
+  @media (max-width: 639px) {
+    .mobile-booking-card [data-booking-panel="departure"] {
+      border-top-right-radius: 18px;
+    }
+
+    .mobile-booking-card [data-booking-panel="guests"] {
+      border-bottom-left-radius: 18px;
+    }
+  }
+
+  @media (min-width: 640px) {
+    .mobile-booking-card [data-booking-panel="arrival"] {
+      border-bottom-left-radius: 0;
+    }
+
+    .mobile-booking-card [data-booking-panel="departure"] {
+      border-top-right-radius: 0;
+    }
+
+    .mobile-booking-card [data-booking-panel="guests"] {
+      border-top-right-radius: 18px;
+      border-bottom-left-radius: 0;
+    }
+  }
+
+  .booking-panel {
+    position: fixed;
+    top: auto;
+    right: auto;
+    bottom: max(0.75rem, env(safe-area-inset-bottom));
+    left: 50%;
+    z-index: 960;
+    width: min(calc(100vw - 1rem), 390px);
+    max-width: min(calc(100vw - 1rem), 390px);
+    max-height: calc(100dvh - 1.5rem);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    transform: translateX(-50%) translateY(24px) scale(0.98);
+    transform-origin: bottom center;
+  }
+
+  .booking-panel-active {
+    z-index: 980;
+  }
+
+  .booking-panel::after {
+    display: none;
+  }
+
+  .booking-panel-arrival,
+  .booking-panel-departure,
+  .booking-panel-guests,
+  .booking-panel-suite,
+  .booking-panel-confirm,
+  .booking-panel-rates {
+    right: auto;
+    left: 50%;
+    width: min(calc(100vw - 1rem), 390px);
+    max-width: min(calc(100vw - 1rem), 390px);
+    transform: translateX(-50%) translateY(24px) scale(0.98);
+    transform-origin: bottom center;
+  }
+
+  .booking-panel-arrival.booking-panel-active,
+  .booking-panel-departure.booking-panel-active,
+  .booking-panel-guests.booking-panel-active,
+  .booking-panel-suite.booking-panel-active,
+  .booking-panel-confirm.booking-panel-active,
+  .booking-panel-rates.booking-panel-active {
+    transform: translateX(-50%) translateY(0) scale(1);
+  }
+
+  .summary-drawer-panel {
+    width: 100vw;
+  }
+}
+
+@media (min-width: 768px) and (hover: hover) and (pointer: fine) {
+  .booking-shell[data-active="false"]:has([data-booking-panel="arrival"]:hover) .booking-panel-arrival,
+  .booking-shell[data-active="false"]:has([data-booking-panel="departure"]:hover) .booking-panel-departure,
+  .booking-shell[data-active="false"]:has([data-booking-panel="guests"]:hover) .booking-panel-guests,
+  .booking-shell[data-active="false"]:has(.booking-panel-arrival:hover) .booking-panel-arrival,
+  .booking-shell[data-active="false"]:has(.booking-panel-departure:hover) .booking-panel-departure,
+  .booking-shell[data-active="false"]:has(.booking-panel-guests:hover) .booking-panel-guests {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .booking-shell[data-active="false"]:has([data-booking-panel="arrival"]:hover) .booking-panel-arrival,
+  .booking-shell[data-active="false"]:has([data-booking-panel="departure"]:hover) .booking-panel-departure,
+  .booking-shell[data-active="false"]:has(.booking-panel-arrival:hover) .booking-panel-arrival,
+  .booking-shell[data-active="false"]:has(.booking-panel-departure:hover) .booking-panel-departure {
+    transform: translateY(0) scale(1);
+  }
+
+  .booking-shell[data-active="false"]:has([data-booking-panel="guests"]:hover) .booking-panel-guests,
+  .booking-shell[data-active="false"]:has(.booking-panel-guests:hover) .booking-panel-guests {
+    transform: translateX(-50%) translateY(0) scale(1);
+  }
+}
+
+@media (hover: none), (pointer: coarse) {
+  .booking-shell[data-active="false"] .booking-panel {
+    opacity: 0;
+    pointer-events: none;
+  }
+}
+
+.booking-panel-arrival.booking-panel-active,
+.booking-panel-departure.booking-panel-active {
+  transform: translateY(0) scale(1);
+}
+
+.booking-panel-guests.booking-panel-active {
+  transform: translateX(-50%) translateY(0) scale(1);
+}
+
+.booking-panel-suite.booking-panel-active,
+.booking-panel-confirm.booking-panel-active {
+  transform: translateY(0) scale(1);
+}
+
+.booking-panel-rates.booking-panel-active {
+  transform: translateX(-50%) translateY(-50%) scale(1);
+}
+
+@media (max-width: 767px) {
+  .booking-panel-arrival.booking-panel-active,
+  .booking-panel-departure.booking-panel-active,
+  .booking-panel-guests.booking-panel-active,
+  .booking-panel-suite.booking-panel-active,
+  .booking-panel-confirm.booking-panel-active,
+  .booking-panel-rates.booking-panel-active {
+    transform: translateX(-50%) translateY(0) scale(1);
+  }
+}
