@@ -183,7 +183,10 @@ html.custom-scrollbar-disabled .custom-page-scrollbar {
 }
 
 .hero-fixed-background {
-  clip-path: inset(0 0 0 0 round 0 0 22px 22px);
+  --hero-bottom-radius: 22px;
+  border-bottom-left-radius: var(--hero-bottom-radius);
+  border-bottom-right-radius: var(--hero-bottom-radius);
+  clip-path: inset(0 0 0 0 round 0 0 var(--hero-bottom-radius) var(--hero-bottom-radius));
 }
 
 .hero-fixed-background::before {
@@ -410,9 +413,8 @@ section#home:has(.booking-shell[data-active="true"]) .booking-shell {
     backdrop-filter: blur(2px);
   }
 
-  section#home {
-    border-bottom-right-radius: 30px;
-    border-bottom-left-radius: 30px;
+  .hero-fixed-background {
+    --hero-bottom-radius: 30px;
   }
 
   .mobile-hero-booking-shell {
