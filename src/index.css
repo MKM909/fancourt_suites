@@ -130,9 +130,11 @@ html.custom-scrollbar-disabled .custom-page-scrollbar {
   perspective: 720px;
 }
 
-[data-room-reveal] {
+[data-room-reveal][data-room-revealed="false"] {
   opacity: 0;
-  transform: translate3d(-22px, 0, 0);
+  transform: translate3d(-18px, 8px, 0) scale(0.982);
+  transform-origin: center center;
+  visibility: hidden;
   will-change: transform, opacity;
 }
 
@@ -151,7 +153,7 @@ html.custom-scrollbar-disabled .custom-page-scrollbar {
   inset: 0;
   z-index: 1;
   display: grid;
-  grid-template-columns: repeat(7, minmax(0, 1fr));
+  grid-template-columns: repeat(6, minmax(0, 1fr));
 }
 
 .page-reveal-column {
@@ -208,6 +210,12 @@ html.custom-scrollbar-disabled .custom-page-scrollbar {
 @media (prefers-reduced-motion: reduce) {
   .page-reveal {
     display: none;
+  }
+
+  [data-room-reveal][data-room-revealed="false"] {
+    opacity: 1;
+    transform: none;
+    visibility: visible;
   }
 }
 
@@ -281,7 +289,7 @@ section#home:has(.booking-shell[data-active="true"]) .booking-shell {
   pointer-events: none;
   visibility: hidden;
   overscroll-behavior: contain;
-  transition: visibility 0s linear 340ms;
+  transition: visibility 0s linear 300ms;
 }
 
 .summary-drawer-backdrop {
@@ -291,7 +299,7 @@ section#home:has(.booking-shell[data-active="true"]) .booking-shell {
   background: rgba(44, 38, 23, 0.5);
   opacity: 0;
   backdrop-filter: blur(2px);
-  transition: opacity 280ms ease;
+  transition: opacity 260ms cubic-bezier(.22, 1, .36, 1);
 }
 
 .summary-drawer-panel {
@@ -310,7 +318,7 @@ section#home:has(.booking-shell[data-active="true"]) .booking-shell {
   overflow: hidden;
   overscroll-behavior: contain;
   transform: translateX(calc(100% + 32px));
-  transition: transform 320ms cubic-bezier(.22, .9, .24, 1);
+  transition: transform 360ms cubic-bezier(.22, 1, .36, 1);
   will-change: transform;
 }
 
@@ -335,7 +343,7 @@ section#home:has(.booking-shell[data-active="true"]) .booking-shell {
 }
 
 .drawer-view {
-  animation: drawer-view-fade 220ms ease both;
+  animation: drawer-view-fade 280ms cubic-bezier(.22, 1, .36, 1) both;
 }
 
 .rooms-scroll {
@@ -378,12 +386,12 @@ section#home:has(.booking-shell[data-active="true"]) .booking-shell {
 @keyframes drawer-view-fade {
   from {
     opacity: 0;
-    transform: translateY(6px);
+    transform: translateY(8px) scale(0.992);
   }
 
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
   }
 }
 

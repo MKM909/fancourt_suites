@@ -52,6 +52,13 @@ import {
 
 gsap.registerPlugin(ScrollTrigger)
 
+const motionEase = {
+  crisp: 'power3.out',
+  lift: 'back.out(1.08)',
+  settle: 'back.out(1.18)',
+  tap: 'back.out(1.62)',
+}
+
 const navItems = ['Home', 'Rooms', 'About', 'Amenities', 'Location', 'Contact']
 const navSectionFlow = ['Home', 'Rooms', 'About', 'Amenities', 'Location', 'Contact']
 const rooms = roomCatalog
@@ -403,24 +410,25 @@ function App() {
         timeline
           .to(nav, {
             autoAlpha: 1,
-            duration: 0.72,
-            ease: 'power4.out',
+            duration: 0.62,
+            ease: motionEase.crisp,
             yPercent: 0,
           }, 0)
           .to(copyTargets, {
             autoAlpha: 1,
-            duration: 0.82,
-            ease: 'power3.out',
+            duration: 0.78,
+            ease: motionEase.settle,
             scale: 1,
-            stagger: 0.085,
+            stagger: 0.055,
             y: 0,
-          }, 0.2)
+          }, 0.16)
           .to(booking, {
             autoAlpha: 1,
-            duration: 0.74,
-            ease: 'power4.out',
+            duration: 0.76,
+            ease: motionEase.lift,
+            scale: 1,
             y: 0,
-          }, 0.42)
+          }, 0.34)
       }
 
       if (reduceMotion) {
@@ -433,15 +441,17 @@ function App() {
         })
         gsap.set(copyTargets, {
           autoAlpha: 0,
-          scale: 0.91,
+          scale: 0.955,
           transformOrigin: 'center center',
           willChange: 'transform, opacity',
-          y: 22,
+          y: 18,
         })
         gsap.set(booking, {
           autoAlpha: 0,
+          scale: 0.985,
+          transformOrigin: 'center center',
           willChange: 'transform, opacity',
-          y: 58,
+          y: 38,
         })
       }
 
@@ -489,6 +499,9 @@ function App() {
       if (reduceMotion) {
         statCounters.forEach((counter) => {
           counter.textContent = counter.dataset.statCounterFinal || counter.textContent
+        })
+        roomReveals.forEach((roomReveal) => {
+          roomReveal.dataset.roomRevealed = 'true'
         })
         gsap.set([...scrollWords, ...cards, ...rows, ...roomReveals], { clearProps: 'all' })
         return
@@ -538,11 +551,11 @@ function App() {
 
         gsap.fromTo(
           counter,
-          { scale: 0.9, y: 10 },
+          { scale: 0.94, y: 8 },
           {
             clearProps: 'transform',
-            duration: 0.9,
-            ease: 'elastic.out(1, 0.48)',
+            duration: 0.64,
+            ease: motionEase.settle,
             scale: 1,
             y: 0,
           },
@@ -562,10 +575,10 @@ function App() {
 
       gsap.set(scrollWords, {
         autoAlpha: 0,
-        rotationX: -20,
+        rotationX: -12,
         transformOrigin: 'center bottom',
         willChange: 'transform, opacity',
-        yPercent: 78,
+        yPercent: 44,
       })
 
       gsap.utils.toArray('[data-scroll-float]', page).forEach((heading) => {
@@ -579,11 +592,11 @@ function App() {
           gsap.to(words, {
             autoAlpha: 1,
             clearProps: 'transform,opacity,visibility,willChange',
-            duration: 0.74,
-            ease: 'power4.out',
+            duration: 0.66,
+            ease: motionEase.crisp,
             rotationX: 0,
             stagger: {
-              amount: Math.min(0.42, words.length * 0.055),
+              amount: Math.min(0.32, words.length * 0.042),
               from: 'start',
             },
             yPercent: 0,
@@ -601,10 +614,10 @@ function App() {
 
       gsap.set(cards, {
         autoAlpha: 0,
-        scale: 0.985,
+        scale: 0.975,
         transformOrigin: 'center center',
         willChange: 'transform, opacity',
-        y: 42,
+        y: 26,
       })
 
       ScrollTrigger.batch(cards, {
@@ -614,10 +627,10 @@ function App() {
           gsap.to(batch, {
             autoAlpha: 1,
             clearProps: 'transform,opacity,visibility,willChange',
-            duration: 0.82,
-            ease: 'power3.out',
+            duration: 0.72,
+            ease: motionEase.lift,
             scale: 1,
-            stagger: 0.085,
+            stagger: 0.055,
             y: 0,
           })
         },
@@ -625,10 +638,10 @@ function App() {
           gsap.to(batch, {
             autoAlpha: 1,
             clearProps: 'transform,opacity,visibility,willChange',
-            duration: 0.72,
-            ease: 'power3.out',
+            duration: 0.64,
+            ease: motionEase.lift,
             scale: 1,
-            stagger: 0.06,
+            stagger: 0.045,
             y: 0,
           })
         },
@@ -637,8 +650,10 @@ function App() {
 
       gsap.set(rows, {
         autoAlpha: 0,
+        scale: 0.992,
         willChange: 'transform, opacity',
-        x: -34,
+        x: -22,
+        y: 8,
       })
 
       ScrollTrigger.batch(rows, {
@@ -648,38 +663,61 @@ function App() {
           gsap.to(batch, {
             autoAlpha: 1,
             clearProps: 'transform,opacity,visibility,willChange',
-            duration: 0.86,
-            ease: 'power3.out',
-            stagger: 0.12,
+            duration: 0.74,
+            ease: motionEase.crisp,
+            scale: 1,
+            stagger: 0.065,
             x: 0,
+            y: 0,
           })
         },
         onEnterBack: (batch) => {
           gsap.to(batch, {
             autoAlpha: 1,
             clearProps: 'transform,opacity,visibility,willChange',
-            duration: 0.72,
-            ease: 'power3.out',
-            stagger: 0.08,
+            duration: 0.62,
+            ease: motionEase.crisp,
+            scale: 1,
+            stagger: 0.045,
             x: 0,
+            y: 0,
           })
         },
         start: 'top 86%',
       })
 
       roomReveals.forEach((roomReveal) => {
+        gsap.set(roomReveal, {
+          autoAlpha: 0,
+          scale: 0.982,
+          transformOrigin: 'center center',
+          willChange: 'transform, opacity',
+          x: -18,
+          y: 8,
+        })
+
+        const isRoomRevealVisible = () => {
+          const rect = roomReveal.getBoundingClientRect()
+
+          return rect.top < window.innerHeight * 0.94 && rect.bottom > window.innerHeight * 0.08
+        }
+
         const playRoomReveal = () => {
-          if (roomReveal.dataset.roomRevealPlayed === 'true') {
+          if (roomReveal.dataset.roomRevealed === 'true') {
             return
           }
 
-          roomReveal.dataset.roomRevealPlayed = 'true'
+          roomReveal.dataset.roomRevealed = 'true'
+
           gsap.to(roomReveal, {
             autoAlpha: 1,
             clearProps: 'transform,opacity,visibility,willChange',
-            duration: 1.05,
-            ease: 'power2.out',
+            duration: 0.88,
+            ease: motionEase.lift,
+            overwrite: 'auto',
+            scale: 1,
             x: 0,
+            y: 0,
           })
         }
 
@@ -687,8 +725,24 @@ function App() {
           end: 'bottom 14%',
           onEnter: playRoomReveal,
           onEnterBack: playRoomReveal,
+          onRefresh: () => {
+            if (isRoomRevealVisible()) {
+              playRoomReveal()
+            }
+          },
+          onToggle: (self) => {
+            if (self.isActive || self.progress > 0) {
+              playRoomReveal()
+            }
+          },
           start: 'top 90%',
           trigger: roomReveal,
+        })
+
+        window.requestAnimationFrame(() => {
+          if (isRoomRevealVisible()) {
+            playRoomReveal()
+          }
         })
       })
 
@@ -703,20 +757,20 @@ function App() {
             const yProgress = (event.clientY - rect.top) / rect.height - 0.5
 
             gsap.to(card, {
-              duration: 0.42,
+              duration: 0.34,
               ease: 'power3.out',
               overwrite: 'auto',
-              rotationX: yProgress * -3.5,
-              rotationY: xProgress * 4.5,
+              rotationX: yProgress * -2.4,
+              rotationY: xProgress * 3.2,
               transformPerspective: 900,
-              y: -5,
+              y: -3,
             })
           }
 
           const handleLeave = () => {
             gsap.to(card, {
-              duration: 0.72,
-              ease: 'elastic.out(1, 0.55)',
+              duration: 0.42,
+              ease: motionEase.settle,
               overwrite: 'auto',
               rotationX: 0,
               rotationY: 0,
@@ -740,17 +794,17 @@ function App() {
           }
 
           gsap.to(target, {
-            duration: 0.12,
+            duration: 0.1,
             ease: 'power2.out',
             overwrite: 'auto',
-            scale: 0.965,
+            scale: 0.972,
           })
         }
 
         const handleUp = () => {
           gsap.to(target, {
-            duration: 0.56,
-            ease: 'elastic.out(1, 0.45)',
+            duration: 0.34,
+            ease: motionEase.tap,
             overwrite: 'auto',
             scale: 1,
           })
@@ -1346,7 +1400,7 @@ function App() {
 
       <section className="bg-[#e7dfcf] px-5 pb-10 pt-9 sm:px-8 sm:pt-[4.8rem] lg:px-12 lg:pt-[5.35rem]" id="rooms">
         <SectionHeading title="Available Rooms & Suites" compact showMark={false} />
-        <div className="mx-auto mt-8 max-w-[1010px]" data-room-reveal>
+        <div className="mx-auto mt-8 max-w-[1010px]" data-room-reveal data-room-revealed="false">
           <div className="relative">
             <span
               aria-hidden="true"
@@ -1835,6 +1889,9 @@ function PageRevealOverlay() {
 
     const previousBodyOverflow = document.body.style.overflow
     const previousHtmlScrollBehavior = document.documentElement.style.scrollBehavior
+    const previousScrollRestoration = window.history.scrollRestoration
+    const revealStartScrollX = window.scrollX
+    const revealStartScrollY = window.scrollY
     let timeline
 
     const context = gsap.context(() => {
@@ -1842,20 +1899,36 @@ function PageRevealOverlay() {
       const logo = overlay.querySelector('[data-reveal-logo]')
       const pageContent = Array.from(document.querySelectorAll('main > :not(.page-reveal):not(nav)'))
       const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      const restoreRevealScroll = () => {
+        window.scrollTo({
+          behavior: 'auto',
+          left: revealStartScrollX,
+          top: revealStartScrollY,
+        })
+      }
       const completeReveal = () => {
+        restoreRevealScroll()
         document.body.style.overflow = previousBodyOverflow
         document.documentElement.style.scrollBehavior = previousHtmlScrollBehavior
+        window.history.scrollRestoration = previousScrollRestoration
         delete document.documentElement.dataset.pageRevealing
         document.documentElement.dataset.pageRevealed = 'true'
         window.dispatchEvent(new Event('fancourt:nav-refresh'))
         window.dispatchEvent(new Event('fancourt:reveal-complete'))
         gsap.set(overlay, { display: 'none' })
+        restoreRevealScroll()
+        window.requestAnimationFrame(() => {
+          restoreRevealScroll()
+          window.dispatchEvent(new Event('fancourt:nav-refresh'))
+        })
       }
 
       delete document.documentElement.dataset.pageRevealed
       document.documentElement.dataset.pageRevealing = 'true'
+      window.history.scrollRestoration = 'manual'
       document.documentElement.style.scrollBehavior = 'auto'
       document.body.style.overflow = 'hidden'
+      restoreRevealScroll()
       window.dispatchEvent(new Event('fancourt:nav-refresh'))
 
       if (prefersReducedMotion) {
@@ -1866,53 +1939,53 @@ function PageRevealOverlay() {
       }
 
       gsap.set(columns, { willChange: 'transform', yPercent: 0 })
-      gsap.set(logo, { autoAlpha: 0, scale: 0.82, willChange: 'transform, opacity', y: 18 })
+      gsap.set(logo, { autoAlpha: 0, scale: 0.86, willChange: 'transform, opacity', y: 14 })
       gsap.set(pageContent, {
-        autoAlpha: 0.92,
+        autoAlpha: 0.84,
         willChange: 'opacity',
       })
 
       timeline = gsap.timeline({
-        defaults: { ease: 'expo.inOut' },
+        defaults: { ease: 'power3.inOut' },
         onComplete: completeReveal,
       })
 
       timeline
         .to(logo, {
           autoAlpha: 1,
-          duration: 0.5,
+          duration: 0.44,
           ease: 'power3.out',
           scale: 1,
           y: 0,
         })
-        .add('siteReveal', '+=0.18')
+        .add('siteReveal', '+=0.12')
         .to(logo, {
           autoAlpha: 0,
-          duration: 0.62,
+          duration: 0.56,
           ease: 'power2.inOut',
-          scale: 1.08,
-          y: -14,
+          scale: 1.055,
+          y: -10,
         }, 'siteReveal')
         .to(columns, {
-          duration: 1.08,
-          ease: 'expo.inOut',
-          stagger: { each: 0.105, from: 'start' },
+          duration: 0.98,
+          ease: 'power4.inOut',
+          stagger: { each: 0.082, from: 'start' },
           yPercent: -101,
         }, 'siteReveal')
         .call(() => {
           window.dispatchEvent(new Event('fancourt:hero-intro-start'))
-        }, [], 'siteReveal+=0.34')
+        }, [], 'siteReveal+=0.24')
         .to(pageContent, {
           autoAlpha: 1,
           clearProps: 'opacity,visibility,willChange',
-          duration: 0.38,
-          ease: 'power2.out',
-        }, 'siteReveal+=0.22')
+          duration: 0.46,
+          ease: motionEase.crisp,
+        }, 'siteReveal+=0.16')
         .to(overlay, {
           autoAlpha: 0,
-          duration: 0.14,
+          duration: 0.16,
           ease: 'power1.out',
-        }, '-=0.1')
+        }, '-=0.12')
     }, overlay)
 
     return () => {
@@ -1920,6 +1993,7 @@ function PageRevealOverlay() {
       context.revert()
       document.body.style.overflow = previousBodyOverflow
       document.documentElement.style.scrollBehavior = previousHtmlScrollBehavior
+      window.history.scrollRestoration = previousScrollRestoration
       delete document.documentElement.dataset.pageRevealing
       window.dispatchEvent(new Event('fancourt:nav-refresh'))
     }
@@ -1934,7 +2008,7 @@ function PageRevealOverlay() {
       role="status"
     >
       <div aria-hidden="true" className="page-reveal-columns">
-        {Array.from({ length: 7 }).map((_, index) => (
+        {Array.from({ length: 6 }).map((_, index) => (
           <span className="page-reveal-column" data-reveal-column key={index} />
         ))}
       </div>
