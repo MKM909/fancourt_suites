@@ -481,6 +481,7 @@ function App() {
       const scrollWords = gsap.utils.toArray('[data-scroll-float-word]', page)
       const cards = gsap.utils.toArray('[data-scroll-card]', page)
       const rows = gsap.utils.toArray('[data-scroll-row]', page)
+      const roomReveals = gsap.utils.toArray('[data-room-reveal]', page)
       const statCounters = gsap.utils.toArray('[data-stat-counter]', page)
       const tiltCards = gsap.utils.toArray('[data-tilt-card]', page)
       const microTargets = gsap.utils.toArray('button, a[href]', page)
@@ -489,7 +490,7 @@ function App() {
         statCounters.forEach((counter) => {
           counter.textContent = counter.dataset.statCounterFinal || counter.textContent
         })
-        gsap.set([...scrollWords, ...cards, ...rows], { clearProps: 'all' })
+        gsap.set([...scrollWords, ...cards, ...rows, ...roomReveals], { clearProps: 'all' })
         return
       }
 
@@ -664,6 +665,31 @@ function App() {
           })
         },
         start: 'top 86%',
+      })
+
+      roomReveals.forEach((roomReveal) => {
+        const playRoomReveal = () => {
+          if (roomReveal.dataset.roomRevealPlayed === 'true') {
+            return
+          }
+
+          roomReveal.dataset.roomRevealPlayed = 'true'
+          gsap.to(roomReveal, {
+            autoAlpha: 1,
+            clearProps: 'transform,opacity,visibility,willChange',
+            duration: 1.05,
+            ease: 'power2.out',
+            x: 0,
+          })
+        }
+
+        ScrollTrigger.create({
+          end: 'bottom 14%',
+          onEnter: playRoomReveal,
+          onEnterBack: playRoomReveal,
+          start: 'top 90%',
+          trigger: roomReveal,
+        })
       })
 
       const canTilt = window.matchMedia('(hover: hover) and (pointer: fine)').matches
@@ -1320,7 +1346,7 @@ function App() {
 
       <section className="bg-[#e7dfcf] px-5 pb-10 pt-9 sm:px-8 sm:pt-[4.8rem] lg:px-12 lg:pt-[5.35rem]" id="rooms">
         <SectionHeading title="Available Rooms & Suites" compact showMark={false} />
-        <div className="mx-auto mt-8 max-w-[1010px]" data-scroll-row>
+        <div className="mx-auto mt-8 max-w-[1010px]" data-room-reveal>
           <div className="relative">
             <span
               aria-hidden="true"

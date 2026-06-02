@@ -130,6 +130,12 @@ html.custom-scrollbar-disabled .custom-page-scrollbar {
   perspective: 720px;
 }
 
+[data-room-reveal] {
+  opacity: 0;
+  transform: translate3d(-22px, 0, 0);
+  will-change: transform, opacity;
+}
+
 @media (pointer: coarse) {
   .custom-page-scrollbar {
     display: none;
