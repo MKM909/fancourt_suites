@@ -76,14 +76,14 @@ test('loops the testimonial carousel autoplay index', () => {
 
 test('builds a WhatsApp reservation handoff with the guest choices', () => {
   const url = createWhatsAppReservationUrl({
-    phone: '2348099888812',
+    phone: '2349126511517',
     arrivalDate: new Date(2026, 5, 2),
     departureDate: new Date(2026, 5, 5),
     guests: { adults: 2, children: 1 },
     roomName: 'Executive Suite',
   })
 
-  assert.ok(url.startsWith('https://wa.me/2348099888812?text='))
+  assert.ok(url.startsWith('https://wa.me/2349126511517?text='))
 
   const message = decodeURIComponent(url.split('text=')[1])
   assert.match(message, /Arrival: Jun 2/)

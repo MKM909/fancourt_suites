@@ -1318,7 +1318,7 @@ function App() {
         </section>
       </div>
 
-      <section className="bg-[#e7dfcf] px-5 pb-10 pt-[5.35rem] sm:px-8 lg:px-12" id="rooms">
+      <section className="bg-[#e7dfcf] px-5 pb-10 pt-9 sm:px-8 sm:pt-[4.8rem] lg:px-12 lg:pt-[5.35rem]" id="rooms">
         <SectionHeading title="Available Rooms & Suites" compact showMark={false} />
         <div className="mx-auto mt-8 max-w-[1010px]">
           <div className="relative">
@@ -1659,7 +1659,7 @@ function App() {
             <div className="absolute bottom-7 left-2 z-10 grid gap-3 text-sm font-bold text-[#2c2617]/78 sm:left-4 lg:left-0">
               <span className="inline-flex items-center gap-2">
                 <Phone size={16} strokeWidth={2.3} />
-                08099888812
+                09126511517
               </span>
               <span className="inline-flex items-center gap-2">
                 <MapPin size={16} strokeWidth={2.3} />
@@ -1764,9 +1764,9 @@ function App() {
               </div>
               <div>
                 <span className="block text-[11px] font-black uppercase tracking-[.14em] text-[#d7c284]">Reception</span>
-                <a className="mt-2 inline-flex items-center gap-2 transition hover:text-white" href="tel:+2348099888812">
+                <a className="mt-2 inline-flex items-center gap-2 transition hover:text-white" href="tel:+2349126511517">
                   <Phone className="size-4" strokeWidth={2.3} />
-                  08099888812
+                  09126511517
                 </a>
               </div>
               <div>

@@ -199,13 +199,6 @@ html.custom-scrollbar-disabled .custom-page-scrollbar {
   }
 }
 
-@media (hover: none), (pointer: coarse) {
-  .hero-fixed-background::before {
-    position: absolute;
-    inset: 0;
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   .page-reveal {
     display: none;

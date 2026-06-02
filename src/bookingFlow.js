@@ -1,6 +1,6 @@
 export const monthShortNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 
-export const whatsappPhone = '2348099888812'
+export const whatsappPhone = '2349126511517'
 
 export const roomCatalog = [
   {
